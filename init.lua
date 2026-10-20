@@ -619,7 +619,14 @@ do
   }
 
   -- Automatically install LSPs and related tools to stdpath for Neovim
-  require('mason').setup {}
+  require('mason').setup {
+    registries = {
+      'github:mason-org/mason-registry',
+      'github:Crashdummyy/mason-registry', -- Current Roslyn server recommended by roslyn.nvim
+    },
+  }
+
+  require 'custom.plugins.roslyn'
 
   -- Translates between nvim-lspconfig server names and mason.nvim package names (e.g. lua_ls <-> lua-language-server)
   require('mason-lspconfig').setup {
@@ -635,6 +642,7 @@ do
   -- You can press `g?` for help in this menu.
   local ensure_installed = vim.tbl_keys(servers or {})
   vim.list_extend(ensure_installed, {
+    'roslyn', -- Managed separately from nvim-lspconfig by roslyn.nvim
     -- You can add other tools here that you want Mason to install
   })
 
